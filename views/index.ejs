@@ -1,0 +1,50 @@
+
+<html lang="en" ng-app="" ng-controller="MyCtrl">
+  <head>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular.min.js"> </script>
+   </head>
+  <body>
+    <div class="row"  style="margin-bottom: 30px;">
+      <div class="col-xs-4">
+        <input type="text" class="form-control" placeholder="Search for images on Flickr" ng-model="search" ng-keydown="getphotos()" />
+      </div>
+    </div>
+    <div class="row"  ng-show="search.length">
+      <ul style="-webkit-column-count: 4; -webkit-column-gap:20px;
+                  -moz-column-count:4; -moz-column-gap:20px;
+                  -o-column-count:4; -o-column-gap:20px;
+                  column-count:4; column-gap:20px;">
+        <li style="list-style-type:none; margin-bottom: 20px;" ng-repeat="photo in photos">
+          <img ng-src="{{photo.photo}}"/>
+        </li>
+      </ul>   
+    </div>
+
+
+  </body>
+  <script>
+
+    function MyCtrl ($scope,$http) {
+
+    $scope.search="";
+
+
+    $scope.getphotos = function() {
+    //Hit the api
+    var url = 'http://localhost:1337/api/'+$scope.search;
+    if($scope.search!=""){
+    $http.get(url).success(function(data) {
+      $scope.photos = data;  
+    });
+    } else {$scope.photos = []}
+    };
+
+    
+
+   
+    }
+
+
+  </script>
+</html>
